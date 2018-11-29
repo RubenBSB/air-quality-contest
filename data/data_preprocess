@@ -1,0 +1,6 @@
+import pandas as pd
+
+df_idf_horaire_pm10 = pd.read_csv("csv/idf_horaire_pm10.csv", delimiter=';')[['nom_station','valeur', 'date_debut', 'date_fin']]
+
+df_idf_horaire_pm10 = df_idf_horaire_pm10.pivot_table(index = 'date_debut', columns = 'nom_station', values = 'valeur')
+df_idf_horaire_pm10.reset_index(inplace=True)
