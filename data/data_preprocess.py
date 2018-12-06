@@ -1,17 +1,7 @@
 import pandas as pd
-import datetime
+from utils import transform_date, add_hours
 
 dfs = []
-
-def transform_date(str_date, date_style):
-    if str_date == 'NaN':
-        return str_date
-    else:
-        if date_style == 1:
-            date = datetime.datetime.strptime(str_date, '%Y-%m-%dT%H:00:00.000Z').strftime('%d/%m/%Y %H:00')
-        elif date_style == 2:
-            date = datetime.datetime.strptime(str_date, '%Y-%m-%d %H:%M:00+00:00').strftime('%d/%m/%Y %H:%M')
-    return date
 
 df_idf_horaire_pm10 = pd.read_csv("csv/idf_horaire_pm10.csv", delimiter=';')[['nom_station','valeur', 'date_debut']]
 df_idf_horaire_pm10 = df_idf_horaire_pm10.pivot_table(index = 'date_debut', columns = 'nom_station', values = 'valeur')
@@ -56,6 +46,7 @@ for df_ in dfs[1:]:
 import difflib
 import folium
 import matplotlib.pyplot as plt
+
 plt.rcParams['figure.figsize'] = (10, 10)
 
 
@@ -87,5 +78,3 @@ for station in localisations:
     map_osm.add_child(folium.RegularPolygonMarker(location=[y,x], popup=station,
                        fill_color='red', radius=5))
 map_osm
-
-
